@@ -20,6 +20,16 @@ public class TrieNode {
         node.isEndOfWord = true;
     }
 
+    public void insert(String word, int index) {
+        Trie node = this.trieNode;
+
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new Trie());
+            node = node.children.get(c);
+        }
+        node.isEndOfWord = true;
+        node.referenceIndex = index;
+    }
     public boolean searchPrefix(String prefix) {
         Trie node = searchWord(prefix);
         return node != null && node.isEndOfWord;
@@ -49,7 +59,7 @@ class Trie {
 
     Map<Character, Trie> children;
     boolean isEndOfWord;
-
+    int referenceIndex =-1;
     public Trie() {
         children = new HashMap<>();
         isEndOfWord = false;
